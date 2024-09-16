@@ -2,7 +2,7 @@
     <v-list lines="three" select-strategy="classic">
         <v-list-subheader>Tasks</v-list-subheader>
 
-        <v-list-item v-for="(task, index) in tasks" :key="index" :value="index">
+        <v-list-item v-for="(task, index) in taskStore.tasks" :key="index" :value="index">
             <template v-slot:prepend="{ isActive }">
                 <v-list-item-action start>
                     <v-checkbox-btn :model-value="isActive"></v-checkbox-btn>
@@ -34,18 +34,17 @@
         </v-list-item>
     </v-list>
 
-    <DialogTaskFields :dialog="showDialogTaskFields" @toggle="toggleEdit" :task="tasks[indexTaskSelected]" />
+    <DialogTaskFields :dialog="showDialogTaskFields" @toggle="toggleEdit" :task="taskStore.tasks[indexTaskSelected]" />
     <DialogDelete :dialog="showDialogDelete" @toggle="toggleDelete" @deleteTask="deleteTask" />
 </template>
 
 <script setup>
-import { ref, defineProps } from 'vue';
+import { ref } from 'vue';
 import DialogTaskFields from './DialogTaskFields.vue';
 import DialogDelete from './DialogDelete.vue';
+import { useTaskStore } from '@/stores/task';
 
-const props = defineProps({
-    tasks: Array
-});
+const taskStore = useTaskStore();
 
 const indexTaskSelected = ref(0);
 const showDialogTaskFields = ref(false);
@@ -65,7 +64,7 @@ const toggleDelete = (index) => {
 }
 
 const deleteTask = () => {
-    props.tasks.splice(indexTaskSelected.value, 1);
+    taskStore.tasks.splice(indexTaskSelected.value, 1);
     toggleDelete();
 }
 </script>
