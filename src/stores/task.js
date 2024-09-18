@@ -13,9 +13,8 @@ export const useTaskStore = defineStore('task', {
             }
         ],
         titleTaskCreating: "",
-         indexTaskSelected: false,
-         showDialogTaskFields:false,
-         showDialogDelete: false
+        indexTaskSelected: 0,
+        showDialogDelete: false
     }),
     actions: {
         addTask() {
@@ -24,11 +23,15 @@ export const useTaskStore = defineStore('task', {
             })
             this.titleTaskCreating = "";
         },
-        toggleDelete (index) {
-            showDialogDelete.value = !showDialogDelete.value;
+        toggleDelete(index) {
+            this.showDialogDelete = !this.showDialogDelete;
             if (index != null) {
-                indexTaskSelected.value = index;
+                this.indexTaskSelected = index;
             }
+        },
+        deleteTask() {
+            this.taskStore.tasks.splice(this.indexTaskSelected, 1);
+            this.taskStore.toggleDelete();
         }
 
     }

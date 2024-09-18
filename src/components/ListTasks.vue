@@ -25,7 +25,7 @@
                         <v-list-item value="1" @click="toggleEdit(index)">
                             <v-list-item-title>Editar</v-list-item-title>
                         </v-list-item>
-                        <v-list-item value="2" @click="toggleDelete(index)">
+                        <v-list-item value="2" @click="taskStore.toggleDelete(index)">
                             <v-list-item-title>Deletar</v-list-item-title>
                         </v-list-item>
                     </v-list>
@@ -35,7 +35,7 @@
     </v-list>
 
     <DialogTaskFields :dialog="showDialogTaskFields" @toggle="toggleEdit" :task="taskStore.tasks[indexTaskSelected]" />
-    <DialogDelete :dialog="showDialogDelete" @toggle="toggleDelete" @deleteTask="deleteTask" />
+    <DialogDelete :dialog="showDialogDelete" @toggle="taskStore.toggleDelete" @deleteTask="taskStore.deleteTask" />
 </template>
 
 <script setup>
@@ -48,7 +48,7 @@ const taskStore = useTaskStore();
 
 const indexTaskSelected = ref(0);
 const showDialogTaskFields = ref(false);
-const showDialogDelete = ref(false);
+// const showDialogDelete = ref(false);
 
 const toggleEdit = (index) => {
     showDialogTaskFields.value = !showDialogTaskFields.value;
@@ -56,15 +56,16 @@ const toggleEdit = (index) => {
         indexTaskSelected.value = index;
     }
 }
-const toggleDelete = (index) => {
-    showDialogDelete.value = !showDialogDelete.value;
-    if (index != null) {
-        indexTaskSelected.value = index;
-    }
-}
 
-const deleteTask = () => {
-    taskStore.tasks.splice(indexTaskSelected.value, 1);
-    toggleDelete();
-}
+// const toggleDelete = (index) => {
+//     showDialogDelete.value = !showDialogDelete.value;
+//     if (index != null) {
+//         indexTaskSelected.value = index;
+//     }
+// }
+
+// const deleteTask = () => {
+//     taskStore.tasks.splice(indexTaskSelected.value, 1);
+//     taskStore.toggleDelete();
+// }
 </script>
